@@ -1,97 +1,180 @@
-# Spring Boot JPA MySQL - Building Rest CRUD API example
+#Microservice Design Problem Statement 
+Use SpringBoot version 2+, Host below microservices in a aws free tier account.
 
-For more detail, please visit:
-> [Spring Boot JPA + MySQL - Building Rest CRUD API example](https://www.bezkoder.com/spring-boot-jpa-crud-rest-api/)
+TASK 1  
+======
 
-> [Spring Boot JPA + PostgreSQL - Building Rest CRUD API example](https://www.bezkoder.com/spring-boot-postgresql-example/)
+Goal: Create a three service microservice project to demonstrate orchestration, rest api invocation, error handling, tracing of logs in javaEE or Node.js Services should communicate with aws hosted URLs
 
-Front-end that works well with this Back-end
-> [Angular 8 Client](https://www.bezkoder.com/angular-crud-app/)
 
-> [Angular 10 Client](https://www.bezkoder.com/angular-10-crud-app/)
+1st Service) Expose two http methods, one get and one post (add swaggerUI).
+From the get method return “Up” if service is up. The post method should return the concatenated responses of the Get call of Service 2 and the Post call of Service 3 using the same payload({The json})
 
-> [Angular 11 Client](https://www.bezkoder.com/angular-11-crud-app/)
+2nd Service) It contains one get method which is called by the first service to fetch a string”Hello” wrapped with a spring response entity.
 
-> [Angular 12 Client](https://www.bezkoder.com/angular-12-crud-app/)
+3rd Service) This exposes one post method which is called by first service to print/log the passed json and return the concatenated name elements as a string (example - “John Doe”) 
 
-> [Angular 13 Client](https://www.bezkoder.com/angular-13-crud-example/)
+Print logs before each method call with a traceID to trace the call flow. 
 
-> [Angular 14 Client](https://www.bezkoder.com/angular-14-crud-example/)
+The json.
+{
+“Name”: “John”,
+“Surname”:”Doe”
+} 
 
-> [Vue 2 Client](https://www.bezkoder.com/vue-js-crud-app/)
+Concatenated Response :-
+{
+“Hello John Doe”
+}
 
-> [Vue 3 Client](https://www.bezkoder.com/vue-3-crud/)
+Extra: Handle exception when passed Json in post calls is not valid
 
-> [Vuetify Client](https://www.bezkoder.com/vuetify-data-table-example/)
+TASK 2
+======
 
-> [React Client](https://www.bezkoder.com/react-crud-web-api/)
+Create 
+Db Connection: 
+Host a database in local or aws (postgres or mysql or inmemory db(H2)).
+Configure your microservice to connect to db.
+Create Hibernate Entity Class  based on the below table requirement to auto create tables in hosted db.
+Populate the db from a post request with the below data or directly insert into db.
 
-> [React Redux Client](https://www.bezkoder.com/react-redux-crud-example/)
+Expose endpoints to fetch requests based on Id and complete list of objects.
+While getting the complete table, Modify the result set(arrays or list) to form nested object structure.
+Below is the nested output in json.Associate color to each object according to table.
 
-More Practice:
-> [Spring Boot File upload example with Multipart File](https://www.bezkoder.com/spring-boot-file-upload/)
+Create a table with fields ID, Name, Color, ParentId and populate with below data.
+Don't use ORM to map or form parent child relationships. Write an algorithm to form the relationship after fetching the list from db, in an efficient way.
 
-> [Spring Boot Pagination & Filter example | Spring JPA, Pageable](https://www.bezkoder.com/spring-boot-pagination-filter-jpa-pageable/)
 
-> [Spring Data JPA Sort/Order by multiple Columns | Spring Boot](https://www.bezkoder.com/spring-data-sort-multiple-columns/)
+id
+parentid
+name
+color
+1
+0
+Warrior
+red
+2
+0
+Wizard
+green
+3
+0
+Priest
+white
+4
+0
+Rogue
+yellow
+5
+1
+Fighter
+blue
+6
+1
+Paladin
+lighblue
+7
+1
+Ranger
+lighgreen
+8
+2
+Mage
+grey
+9
+2
+Specialist wizard
+lightgrey
+10
+3
+Cleric
+red
+11
+3
+Druid
+green
+12
+3
+Priest of specific mythos
+white
+13
+4
+Thief
+yellow
+14
+4
+Bard
+blue
+15
+13
+Assassin
+lighblue
 
-> [Spring Boot Repository Unit Test with @DataJpaTest](https://www.bezkoder.com/spring-boot-unit-test-jpa-repo-datajpatest/)
 
-Associations:
-> [Spring Boot One To Many example with Spring JPA, Hibernate](https://www.bezkoder.com/jpa-one-to-many/)
 
-> [Spring Boot Many To Many example with Spring JPA, Hibernate](https://www.bezkoder.com/jpa-many-to-many/)
 
-Security:
-> [Spring Boot + Spring Security JWT Authentication & Authorization](https://www.bezkoder.com/spring-boot-jwt-authentication/)
+Nested Json response. Ignore Dangling Branches Scenario.
 
-Deployment:
-> [Deploy Spring Boot App on AWS – Elastic Beanstalk](https://bezkoder.com/deploy-spring-boot-aws-eb/)
+[
+  {
+    "Name": "Wizard",
+    "Sub Classes": [
+      {
+        "Name": "Mage"
+      },
+      {
+        "Name": "Specialist wizard"
+      }
+    ]
+  },
+  {
+    "Name": "Priest",
+    "Sub Classes": [
+      {
+        "Name": "Cleric"
+      },
+      {
+        "Name": "Druid"
+      },
+      {
+        "Name": "Priest of specific mythos"
+      }
+    ]
+  },
+  {
+    "Name": "Warrior",
+    "Sub Classes": [
+      {
+        "Name": "Fighter"
+      },
+      {
+        "Name": "Paladin"
+      },
+      {
+        "Name": "Ranger"
+      }
+    ]
+  },
+  {
+    "Name": "Rogue",
+    "Sub Classes": [
+      {
+        "Name": "Thief",
+        "Sub Classes": [
+          {
+            "Name": "Assassin"
+          }
+        ]
+      },
+      {
+        "Name": "Bard"
+      }
+    ]
+  }
+]
 
-> [Docker Compose Spring Boot and MySQL example](https://www.bezkoder.com/docker-compose-spring-boot-mysql/)
-
-Fullstack:
-> [Vue.js + Spring Boot + MySQL example](https://bezkoder.com/spring-boot-vue-js-mysql/)
-
-> [Vue.js + Spring Boot + PostgreSQL example](https://bezkoder.com/spring-boot-vue-js-postgresql/)
-
-> [Angular 10 + Spring Boot + MySQL example](https://www.bezkoder.com/angular-10-spring-boot-crud/)
-
-> [Angular 11 + Spring Boot + MySQL example](https://www.bezkoder.com/angular-11-spring-boot-crud/)
-
-> [Angular 12 + Spring Boot + MySQL example](https://bezkoder.com/angular-12-spring-boot-mysql/)
-
-> [Angular 13 + Spring Boot + MySQL example](https://www.bezkoder.com/spring-boot-angular-13-mysql/)
-
-> [Angular 14 + Spring Boot + MySQL example](https://www.bezkoder.com/spring-boot-angular-14-mysql/)
-
-> [Angular 10 + Spring Boot + PostgreSQL example](https://www.bezkoder.com/angular-10-spring-boot-postgresql/)
-
-> [Angular 11 + Spring Boot + PostgreSQL example](https://www.bezkoder.com/angular-11-spring-boot-postgresql/)
-
-> [Angular 12 + Spring Boot + PostgreSQL example](https://bezkoder.com/angular-12-spring-boot-postgresql/)
-
-> [Angular 13 + Spring Boot + PostgreSQL example](https://www.bezkoder.com/spring-boot-angular-13-postgresql/)
-
-> [Angular 14 + Spring Boot + PostgreSQL example](https://www.bezkoder.com/spring-boot-angular-14-postgresql/)
-
-> [Angular 13 + Spring Boot + H2 Embedded Database example](https://www.bezkoder.com/spring-boot-angular-13-crud/)
-
-> [Angular 14 + Spring Boot + H2 Embedded Database example](https://www.bezkoder.com/spring-boot-angular-14-crud/)
-
-> [React + Spring Boot + MySQL example](https://www.bezkoder.com/react-spring-boot-crud/)
-
-> [React + Spring Boot + PostgreSQL example](https://www.bezkoder.com/spring-boot-react-postgresql/)
-
-Run both Back-end & Front-end in one place:
-> [Integrate Angular with Spring Boot Rest API](https://www.bezkoder.com/integrate-angular-spring-boot/)
-
-> [Integrate React.js with Spring Boot Rest API](https://www.bezkoder.com/integrate-reactjs-spring-boot/)
-
-> [Integrate Vue.js with Spring Boot Rest API](https://www.bezkoder.com/integrate-vue-spring-boot/)
-
-## Run Spring Boot application
-```
-mvn spring-boot:run
-```
-
+    
+Create a method level Annotation @LogMethodParam which logs parameters passed to method.
+# microservices-demo-1
